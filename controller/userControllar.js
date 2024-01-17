@@ -58,7 +58,7 @@ const getallUser = asyncHandler(async (req, res) => {
 
 const getaUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  validateMongoDbId(_id);
+  validateMongoDbId(id);
   try {
     const getUsers = await User.findOne({ _id: id });
     res.json(getUsers);
