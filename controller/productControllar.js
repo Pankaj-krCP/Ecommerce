@@ -17,7 +17,6 @@ const createProduct = asyncHandler(async (req, res) => {
 
 const updateProduct = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  console.log(id);
   try {
     if (req.body.title) {
       req.body.slug = slugify(req.body.title);
@@ -41,7 +40,6 @@ const deleteProduct = asyncHandler(async (req, res) => {
     const deleteProduct = await Product.findByIdAndDelete(id);
     res.send(deleteProduct);
   } catch (error) {
-    console.log(error);
     throw new Error(error);
   }
 });
@@ -64,7 +62,6 @@ const getAllProduct = asyncHandler(async (req, res) => {
     excludeFields.forEach((el) => delete queryObj[el]);
     let queryStr = JSON.stringify(queryObj);
     queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
-    console.log(queryStr);
 
     let query = Product.find(JSON.parse(queryStr));
 
@@ -123,7 +120,6 @@ const filterProduct = asyncHandler(async (req, res) => {
 const addToWishlist = asyncHandler(async (req, res) => {
   const { _id } = req.user;
   const { prodId } = req.body;
-  console.log(prodId);
   try {
     const user = await User.findById(_id);
     const alreadyadded = user.wishlist.find(
@@ -161,7 +157,6 @@ const rating = asyncHandler(async (req, res) => {
     const alreadyRated = await product.ratings.find(
       (userId) => userId.postedby.toString() === _id.toString()
     );
-    console.log(alreadyRated);
     if (alreadyRated) {
       const updateRating = await Product.updateOne(
         {
