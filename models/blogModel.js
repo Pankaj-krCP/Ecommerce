@@ -38,7 +38,7 @@ var blogSchema = new mongoose.Schema(
         ref: "User",
       },
     ],
-    image: [],
+    images: [],
     author: {
       type: String,
       default: "Admin",

@@ -155,6 +155,44 @@ const dislikeBlog = asyncHandler(async (req, res) => {
   }
 });
 
+const addImages = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const images = req.images;
+  try {
+    const blog = await Blog.findByIdAndUpdate(
+      id,
+      {
+        $push: { images: { $each: images } },
+      },
+      { new: true }
+    );
+    res.json(blog);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+const removeImages = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { public_id } = req.body;
+  const blog = await Blog.findById(id);
+  const imageToDelete = blog?.images?.find(
+    (item) => item.public_id.toString() === public_id.toString()
+  );
+  if (imageToDelete) {
+    const blog = await Blog.findByIdAndUpdate(
+      id,
+      {
+        $pull: { images: imageToDelete },
+      },
+      { new: true }
+    );
+    res.json(blog);
+  } else {
+    throw new Error("Image not Exist");
+  }
+});
+
 module.exports = {
   createBlog,
   updateBlog,
@@ -163,4 +201,6 @@ module.exports = {
   deleteBlog,
   likeBlog,
   dislikeBlog,
+  addImages,
+  removeImages,
 };

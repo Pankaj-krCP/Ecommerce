@@ -199,6 +199,44 @@ const rating = asyncHandler(async (req, res) => {
   }
 });
 
+const addImages = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const images = req.images;
+  try {
+    const product = await Product.findByIdAndUpdate(
+      id,
+      {
+        $push: { images: { $each: images } },
+      },
+      { new: true }
+    );
+    res.json(product);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+const removeImages = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { public_id } = req.body;
+  const product = await Product.findById(id);
+  const imageToDelete = product?.images?.find(
+    (item) => item.public_id.toString() === public_id.toString()
+  );
+  if (imageToDelete) {
+    const product = await Product.findByIdAndUpdate(
+      id,
+      {
+        $pull: { images: imageToDelete },
+      },
+      { new: true }
+    );
+    res.json(product);
+  } else {
+    throw new Error("Image not Exist");
+  }
+});
+
 module.exports = {
   createProduct,
   getaProduct,
@@ -208,4 +246,6 @@ module.exports = {
   deleteProduct,
   addToWishlist,
   rating,
+  addImages,
+  removeImages,
 };

@@ -7,16 +7,18 @@ const {
   deleteProduct,
   addToWishlist,
   rating,
+  addImages,
+  removeImages,
 } = require("../controller/productControllar");
 const { isAdmin, authMiddleware } = require("../middlewares/authMiddleware");
 const {
   uploadPhoto,
   productImgResize,
-} = require("../middlewares/uploadImages");
+} = require("../middlewares/multerUploadImages");
 const {
   uploadImages,
   deleteImages,
-} = require("../controller/uploadControllar");
+} = require("../middlewares/cloudinaryUploadImages");
 const router = express.Router();
 
 router.post("/", authMiddleware, isAdmin, createProduct);
@@ -26,9 +28,16 @@ router.put(
   isAdmin,
   uploadPhoto.array("images", 10),
   productImgResize,
-  uploadImages
+  uploadImages,
+  addImages
 );
-router.delete("/delete/:id", authMiddleware, isAdmin, deleteImages);
+router.delete(
+  "/delete/:id",
+  authMiddleware,
+  isAdmin,
+  deleteImages,
+  removeImages
+);
 router.get("/", getAllProduct);
 router.get("/:id", getaProduct);
 router.put("/wishlist", authMiddleware, addToWishlist);
