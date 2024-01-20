@@ -20,7 +20,6 @@ const uploadImages = asyncHandler(async (req, res, next) => {
     const images = urls.map((file) => {
       return file;
     });
-    console.log(images);
     req.images = images;
   } catch (error) {
     throw new Error(error);
