@@ -38,11 +38,7 @@ var blogSchema = new mongoose.Schema(
         ref: "User",
       },
     ],
-    image: {
-      type: String,
-      default:
-        "https://media.istockphoto.com/id/876014518/photo/blog-blogging-concept.jpg?s=1024x1024&w=is&k=20&c=JC63ohVc0hvRjxy4gsr7K-gFYnQJ43e9KEyv5fVB3mM=",
-    },
+    image: [],
     author: {
       type: String,
       default: "Admin",
