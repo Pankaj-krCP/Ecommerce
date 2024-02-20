@@ -2,6 +2,7 @@ const express = require("express");
 const {
   createUser,
   loginUserControl,
+  loginAdmin,
   getallUser,
   getaUser,
   deleteaUser,
@@ -22,6 +23,7 @@ router.post("/forgot-password-token", forgotPasswordToken);
 router.post("/reset-password/:token", resetPassword);
 router.put("/password", authMiddleware, updatePassword);
 router.post("/login", loginUserControl);
+router.post("/admin-login", loginAdmin);
 router.get("/all-users", getallUser);
 router.get("/refreshtoken", handleRefreshToken);
 router.get("/logout", logOut);
