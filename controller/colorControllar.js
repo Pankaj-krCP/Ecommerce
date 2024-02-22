@@ -3,7 +3,6 @@ const asyncHandler = require("express-async-handler");
 const validateMongoDbId = require("../utils/validateMongodbId");
 
 const createColor = asyncHandler(async (req, res) => {
-  console.log("Pankaj");
   try {
     const newColor = await Color.create(req.body);
     res.json(newColor);
