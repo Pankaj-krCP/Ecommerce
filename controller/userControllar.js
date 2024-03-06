@@ -14,12 +14,18 @@ const uniqid = require("uniqid");
 
 const createUser = asyncHandler(async (req, res) => {
   const email = req.body.email;
+  const mobile = req.body.mobile;
   const findUser = await User.findOne({ email: email });
-  if (!findUser) {
+  const findUserByMobile = await User.findOne({ mobile: mobile });
+  if (!findUser && !findUserByMobile) {
     const newUser = await User.create(req.body);
     res.json(newUser);
   } else {
-    throw new Error("User Already Exists");
+    if (findUser) {
+      throw new Error("Email Already Exists");
+    } else {
+      throw new Error("Mobile Already Exists");
+    }
   }
 });
 
