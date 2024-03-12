@@ -416,34 +416,21 @@ const saveAddress = asyncHandler(async (req, res, next) => {
 
 // user cart
 const userCart = asyncHandler(async (req, res) => {
-  const { cart } = req.body;
+  const cart = req.body;
   const { _id } = req.user;
+
   validateMongoDbId(_id);
   try {
-    let products = [];
     const user = await User.findById(_id);
     // check if user already have product in cart
     const alreadyExistCart = await Cart.findOne({ orderby: user._id });
     if (alreadyExistCart) {
       const deleted = await Cart.findOneAndDelete({ orderby: user._id });
     }
-    for (let i = 0; i < cart.length; i++) {
-      let object = {};
-      object.product = cart[i]._id;
-      object.count = cart[i].count;
-      object.color = cart[i].color;
-      let getPrice = await Product.findById(cart[i]._id).select("price").exec();
-      object.price = getPrice.price;
-      products.push(object);
-    }
-    let cartTotal = 0;
-
-    for (let i = 0; i < products.length; i++) {
-      cartTotal = cartTotal + products[i].price * products[i].count;
-    }
+    let totalPrice = cart?.count * cart?.price;
     let newCart = await new Cart({
-      products,
-      cartTotal,
+      products: cart,
+      cartTotal: totalPrice,
       orderby: user?._id,
     }).save();
     res.json(newCart);
