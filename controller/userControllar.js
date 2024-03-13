@@ -422,18 +422,22 @@ const userCart = asyncHandler(async (req, res) => {
   validateMongoDbId(_id);
   try {
     const user = await User.findById(_id);
-    // check if user already have product in cart
-    const alreadyExistCart = await Cart.findOne({ orderby: user._id });
+    let alreadyExistCart = await Cart.findOne({ orderby: user._id });
+
     if (alreadyExistCart) {
-      const deleted = await Cart.findOneAndDelete({ orderby: user._id });
+      alreadyExistCart.products.push(cart);
+      alreadyExistCart.cartTotal += cart.count * cart.price;
+      alreadyExistCart = await alreadyExistCart.save();
+      res.json(alreadyExistCart);
+    } else {
+      const totalPrice = cart.count * cart.price;
+      const newCart = await new Cart({
+        products: [cart],
+        cartTotal: totalPrice,
+        orderby: user._id,
+      }).save();
+      res.json(newCart);
     }
-    let totalPrice = cart?.count * cart?.price;
-    let newCart = await new Cart({
-      products: cart,
-      cartTotal: totalPrice,
-      orderby: user?._id,
-    }).save();
-    res.json(newCart);
   } catch (error) {
     throw new Error(error);
   }
@@ -461,6 +465,74 @@ const emptyCart = asyncHandler(async (req, res) => {
     const user = await User.findOne({ _id });
     const cart = await Cart.findOneAndRemove({ orderby: user._id });
     res.json(cart);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+//delete a product from cart
+const deleteSingleCart = asyncHandler(async (req, res) => {
+  const { id: productID } = req.params;
+  const { _id: userID } = req.user;
+  validateMongoDbId(productID);
+  validateMongoDbId(userID);
+  try {
+    const cart = await Cart.findOne({ orderby: userID });
+    const productIndex = cart.products.findIndex(
+      (product) => product._id.toString() === productID
+    );
+
+    if (productIndex !== -1) {
+      const deletedProductPrice =
+        cart.products[productIndex].count * cart.products[productIndex].price;
+      cart.cartTotal -= deletedProductPrice;
+      cart.products.splice(productIndex, 1);
+      if (cart.products.length === 0) {
+        await Cart.deleteOne({ _id: cart._id });
+        res.json({ message: "Cart deleted successfully" });
+      } else {
+        const updatedCart = await cart.save();
+        res.json(updatedCart);
+      }
+    } else {
+      res.status(404);
+      throw new Error("Product not found in cart");
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+//update cart item count
+const updateSingleCart = asyncHandler(async (req, res) => {
+  const { cartItemID, quantity } = req.body;
+  const { _id: userID } = req.user;
+
+  try {
+    const cart = await Cart.findOne({ orderby: userID });
+
+    if (!cart) {
+      res.status(404);
+      throw new Error("Cart not found");
+    }
+
+    const itemIndex = cart.products.findIndex(
+      (item) => item._id.toString() === cartItemID
+    );
+
+    if (itemIndex === -1) {
+      res.status(404);
+      throw new Error("Item not found in cart");
+    }
+
+    cart.products[itemIndex].count = quantity;
+    cart.cartTotal = cart.products.reduce(
+      (total, item) => total + item.price * item.count,
+      0
+    );
+    await cart.save();
+    const updatedCart = await Cart.findOne({ orderby: userID });
+    res.json(updatedCart);
   } catch (error) {
     throw new Error(error);
   }
@@ -516,4 +588,6 @@ module.exports = {
   getUserCart,
   emptyCart,
   applyCoupon,
+  deleteSingleCart,
+  updateSingleCart,
 };
