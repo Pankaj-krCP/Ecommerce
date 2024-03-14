@@ -29,6 +29,12 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       default: "user",
+      validate: {
+        validator: function (v) {
+          return v === "user";
+        },
+        message: (props) => `${props.value} is not allowed as a role`,
+      },
     },
     isBlocked: {
       type: Boolean,
