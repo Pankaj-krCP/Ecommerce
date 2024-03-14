@@ -27,7 +27,7 @@ const {
   applyCoupon,
   deleteSingleCart,
   updateSingleCart,
-} = require("../controller/userControllar.js");
+} = require("../controller/user/index.js");
 const { authMiddleware, isAdmin } = require("../middlewares/authMiddleware.js");
 
 const router = express.Router();
