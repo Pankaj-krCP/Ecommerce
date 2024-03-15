@@ -10,14 +10,15 @@ const createOrder = asyncHandler(async (req, res) => {
     paymentInfo,
   } = req.body;
   const { _id } = req.user;
+  console.log(req.body);
   try {
     const order = await Order.create({
       orderBy: _id,
-      orderItems,
-      shippingInfo,
-      paymentInfo,
-      totalPrice,
-      totalPriceAfterDiscount,
+      orderItems: orderItems,
+      shippingInfo: shippingInfo,
+      paymentInfo: paymentInfo,
+      totalPrice: totalPrice,
+      totalPriceAfterDiscount: totalPriceAfterDiscount,
     });
     res.json({
       order,

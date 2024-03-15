@@ -13,7 +13,7 @@ const updatePassword = require("./updatepassword.controllar");
 const forgotPasswordToken = require("./forgotpasswordtoken.controllar");
 const resetPassword = require("./resetpassword.controllar");
 const createOrder = require("./createorder.controllar");
-const getOrders = require("./getorder.controllar");
+const getOrderById = require("./getorderbyid.controllar");
 const getAllOrders = require("./getallorder.controllar");
 const getOrderByUserId = require("./getuserorder.controllar");
 const updateOrderStatus = require("./updateorderstatus.controllar");
@@ -42,7 +42,7 @@ module.exports = {
   forgotPasswordToken,
   resetPassword,
   createOrder,
-  getOrders,
+  getOrderById,
   updateOrderStatus,
   getAllOrders,
   getOrderByUserId,

@@ -4,8 +4,8 @@ const Order = require("../../models/orderModel");
 const getAllOrders = asyncHandler(async (req, res) => {
   try {
     const alluserorders = await Order.find()
-      .populate("products.product")
-      .populate("orderby")
+      .populate("orderItems.product")
+      .populate("orderBy")
       .exec();
     res.json(alluserorders);
   } catch (error) {

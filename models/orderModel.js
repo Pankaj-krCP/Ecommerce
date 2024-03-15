@@ -17,7 +17,7 @@ var orderSchema = new mongoose.Schema(
           type: String,
           required: true,
         },
-        quantity: {
+        count: {
           type: Number,
           required: true,
         },
