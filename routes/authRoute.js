@@ -61,11 +61,11 @@ router.post("/cart/create-order", authMiddleware, createOrder);
 //Orders User
 router.post("/order/checkout", authMiddleware, checkout);
 router.post("/order/paymentverification", authMiddleware, paymentVerification);
+router.get("/order/getorderbyuserid", authMiddleware, getOrderByUserId);
 
 //Order Admin work
 router.get("/getorderbyid/:id", authMiddleware, isAdmin, getOrderById);
 router.get("/getallorders", authMiddleware, isAdmin, getAllOrders);
-router.post("/getorderbyuser/:id", authMiddleware, isAdmin, getOrderByUserId);
 router.put(
   "/order/update-order/:id",
   authMiddleware,

@@ -8,7 +8,7 @@ const emptyCart = asyncHandler(async (req, res) => {
   validateMongoDbId(_id);
   try {
     const user = await User.findOne({ _id });
-    const cart = await Cart.findOneAndRemove({ orderby: user._id });
+    const cart = await Cart.findOneAndDelete({ orderby: user._id });
     res.json(cart);
   } catch (error) {
     throw new Error(error);
