@@ -5,7 +5,7 @@ const {
   deleteColor,
   getColor,
   getallColor,
-} = require("../controller/colorControllar");
+} = require("../controller/color/index");
 const { authMiddleware, isAdmin } = require("../middlewares/authMiddleware");
 const router = express.Router();
 

@@ -1,8 +1,5 @@
 const express = require("express");
-const {
-  uploadImages,
-  deleteImages,
-} = require("../controller/uploadControllar");
+const { uploadImages, deleteImages } = require("../controller/upload/index");
 const { isAdmin, authMiddleware } = require("../middlewares/authMiddleware");
 const {
   uploadPhoto,

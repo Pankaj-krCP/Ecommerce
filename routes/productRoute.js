@@ -9,7 +9,7 @@ const {
   rating,
   addImages,
   removeImages,
-} = require("../controller/productControllar");
+} = require("../controller/product/index");
 const { isAdmin, authMiddleware } = require("../middlewares/authMiddleware");
 const {
   uploadPhoto,

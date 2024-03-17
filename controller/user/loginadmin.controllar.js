@@ -1,16 +1,7 @@
-const jwt = require("jsonwebtoken");
-const crypto = require("crypto");
-const uniqid = require("uniqid");
 const asyncHandler = require("express-async-handler");
 const User = require("../../models/userModel");
-const Product = require("../../models/productModel");
-const Cart = require("../../models/cartModel");
-const Coupon = require("../../models/couponModel");
-const Order = require("../../models/orderModel");
-const validateMongoDbId = require("../../utils/validateMongodbId");
 const generateToken = require("../../config/jwtToken");
 const generateRefreshToken = require("../../config/refreshToken");
-const sendEmail = require("../emailControllar");
 
 const loginAdmin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;

@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../../models/userModel");
-const sendEmail = require("../emailControllar");
+const sendEmail = require("../email/index");
 
 const forgotPasswordToken = asyncHandler(async (req, res) => {
   const { email } = req.body;

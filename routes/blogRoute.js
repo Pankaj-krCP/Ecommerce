@@ -11,7 +11,7 @@ const {
   dislikeBlog,
   removeImages,
   addImages,
-} = require("../controller/blogControllar");
+} = require("../controller/blog/index");
 
 const {
   uploadPhoto,
