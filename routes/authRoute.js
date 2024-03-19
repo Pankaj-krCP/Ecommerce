@@ -42,7 +42,7 @@ router.post("/login", loginUserControl);
 router.post("/admin-login", loginAdmin);
 router.get("/logout", logOut);
 router.post("/forgot-password-token", forgotPasswordToken);
-router.post("/reset-password/:token", resetPassword);
+router.put("/reset-password/:token", resetPassword);
 router.put("/password", authMiddleware, updatePassword);
 router.get("/refreshtoken", handleRefreshToken);
 
