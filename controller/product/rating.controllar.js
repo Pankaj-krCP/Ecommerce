@@ -7,6 +7,7 @@ const rating = asyncHandler(async (req, res) => {
   const { _id } = req.user;
   const { star, prodId, comment } = req.body;
   try {
+    const user = await User.findById(_id);
     const product = await Product.findById(prodId);
     const alreadyRated = await product.ratings.find(
       (userId) => userId.postedby.toString() === _id.toString()
@@ -30,6 +31,7 @@ const rating = asyncHandler(async (req, res) => {
             star: star,
             comment: comment,
             postedby: _id,
+            username: user.firstName + " " + user.lastName,
           },
         },
       });
@@ -39,7 +41,7 @@ const rating = asyncHandler(async (req, res) => {
     let ratingsum = getallratings.ratings
       .map((item) => item.star)
       .reduce((prev, curr) => prev + curr, 0);
-    let actualrating = Math.round(ratingsum / totalRating);
+    let actualrating = ratingsum / totalRating;
     const finalProduct = await Product.findByIdAndUpdate(
       prodId,
       {
