@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../../models/userModel");
-const validateMongoDbId = require("../../utils/validateMongodbId");
+const validateMongoDbId = require("../../utilss/validateMongodbId");
 
 const saveAddress = asyncHandler(async (req, res, next) => {
   const { _id } = req.user;

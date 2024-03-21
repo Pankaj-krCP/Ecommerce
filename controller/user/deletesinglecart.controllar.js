@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Cart = require("../../models/cartModel");
-const validateMongoDbId = require("../../utils/validateMongodbId");
+const validateMongoDbId = require("../../utilss/validateMongodbId");
 
 const deleteSingleCart = asyncHandler(async (req, res) => {
   const { id: productID } = req.params;

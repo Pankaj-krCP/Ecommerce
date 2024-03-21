@@ -1,5 +1,5 @@
 const Coupon = require("../../models/couponModel");
-const validateMongoDbId = require("../../utils/validateMongodbId");
+const validateMongoDbId = require("../../utilss/validateMongodbId");
 const asynHandler = require("express-async-handler");
 
 const updateCoupon = asynHandler(async (req, res) => {

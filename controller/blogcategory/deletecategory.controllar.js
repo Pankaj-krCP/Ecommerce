@@ -1,6 +1,6 @@
 const Category = require("../../models/blogcategoryModel");
 const asyncHandler = require("express-async-handler");
-const validateMongoDbId = require("../../utils/validateMongodbId");
+const validateMongoDbId = require("../../utilss/validateMongodbId");
 
 const deleteCategory = asyncHandler(async (req, res) => {
   const { id } = req.params;

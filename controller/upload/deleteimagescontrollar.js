@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler");
-const { cloudinaryDeleteImg } = require("../../utils/cloudinary");
+const { cloudinaryDeleteImg } = require("../../utilss/cloudinary");
 
 const deleteImages = asyncHandler(async (req, res) => {
   const { id } = req.params;

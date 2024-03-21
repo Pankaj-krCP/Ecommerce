@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const User = require("../../models/userModel");
 const Cart = require("../../models/cartModel");
 const Coupon = require("../../models/couponModel");
-const validateMongoDbId = require("../../utils/validateMongodbId");
+const validateMongoDbId = require("../../utilss/validateMongodbId");
 
 const applyCoupon = asyncHandler(async (req, res) => {
   const { coupon } = req.body;
